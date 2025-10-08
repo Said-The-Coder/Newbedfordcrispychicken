@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <title>CFC - Crispy Fried Chicken</title>
+  <link rel="icon" type="x-icon" href="image/logo.PNG">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #fff;
+      color: #333;
+    }
+
+    /* HEADER AND BANNER */
+    .banner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: #b30000;
+      color: white;
+      padding: 15px;
+      gap: 10px;
+    }
+
+    .banner .logo {
+      height: 70px;
+      width: auto;
+      border: 3px solid gold;
+      border-radius: 10px;
+      background-color: white;
+      padding: 5px;
+    }
+
+    nav {
+      background-color: #fff4cc;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      border-bottom: 2px solid #e60000;
+      padding: 0.75rem 0;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #e60000;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #c99700;
+    }
+
+    .container {
+      max-width: 1000px;
+      width: 90%;
+      margin: 2rem auto;
+    }
+
+    /* ABOUT SECTION */
+    .about-section {
+      background-color: #fff3e6; /* light, warm background */
+      padding: 4rem 1rem;
+      color: #b30000; /* restaurant theme color */
+      text-align: center;
+    }
+
+    .about-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .about-text {
+      flex: 1 1 400px;
+      text-align: left;
+    }
+
+    .about-text h2 {
+      font-size: 2.2rem;
+      margin-bottom: 1rem;
+      color: #e60000;
+    }
+
+    .about-text p {
+      font-size: 1rem;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+
+    .about-image {
+      flex: 1 1 400px;
+      text-align: center;
+    }
+
+    .about-image img {
+      max-width: 100%;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .about-image img:hover {
+      transform: scale(1.05);
+    }
+
+    /* SLIDESHOW */
+    .slideshow {
+      position: relative;
+      width: 100%;
+      height: 400px;
+      overflow: hidden;
+      border-radius: 10px;
+    }
+
+    .slide {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 2rem;
+      font-weight: bold;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+    }
+
+    .slide.active {
+      opacity: 1;
+    }
+
+    .prev, .next {
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      padding: 16px;
+      color: white;
+      font-weight: bold;
+      font-size: 24px;
+      background-color: rgba(0,0,0,0.4);
+      border-radius: 50%;
+      user-select: none;
+      z-index: 2;
+      transform: translateY(-50%);
+    }
+
+    .next { right: 10px; }
+    .prev { left: 10px; }
+    .prev:hover, .next:hover { background-color: rgba(0,0,0,0.7); }
+
+    /* ORDER SECTION */
+    .order-section {
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    .order-box {
+      background-color: #fff4cc;
+      border: 2px solid #c99700;
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin: 1rem 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .order-box h2 {
+      color: #e60000;
+      margin-bottom: 1rem;
+    }
+
+    .delivery-buttons a {
+      text-decoration: none;
+      background-color: #c99700;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      margin: 0.5rem;
+      display: inline-block;
+      transition: background-color 0.3s;
+    }
+
+    .delivery-buttons a:hover {
+      background-color: #e60000;
+    }
+
+    /* MENU GRID */
+    .menu {
+      margin-top: 3rem;
+    }
+
+    .menu h2 {
+      color: #e60000;
+      text-align: center;
+      margin-bottom: 2rem;
+      font-size: 2rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .menu-section {
+      background-color: #fff4cc;
+      border: 2px solid #c99700;
+      border-radius: 12px;
+      padding: 1rem 1.2rem;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .menu-section h3 {
+      color: #b30000;
+      font-size: 1.4rem;
+      text-align: center;
+      margin-bottom: 0.8rem;
+      border-bottom: 2px solid #c99700;
+      padding-bottom: 5px;
+    }
+
+    .menu-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin: 0.5rem 0;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px dotted rgba(0, 0, 0, 0.1);
+    }
+
+    .menu-item:last-child {
+      border-bottom: none;
+    }
+
+    .menu-item h4 {
+      margin: 0;
+      color: #e60000;
+      font-size: 1rem;
+    }
+
+    .menu-item p {
+      margin: 2px 0 0;
+      font-size: 0.85rem;
+      color: #555;
+    }
+
+    .price {
+      color: #c99700;
+      font-weight: bold;
+      font-size: 0.95rem;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    /* FOOTER */
+    footer {
+      background-color: #b30000;
+      color: gold;
+      text-align: center;
+      padding: 2rem 1rem;
+      margin-top: 3rem;
+    }
+
+    footer h3 { margin-bottom: 0.5rem; }
+
+    .footer-section {
+      margin-bottom: 1rem;
+    }
+
+    .social-icons span {
+      display: inline-block;
+      background-color: gold;
+      color: #b30000;
+      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      line-height: 28px;
+      margin: 0 5px;
+      font-weight: bold;
+    }
+
+
+    .social-icons .icon {
+      background-color: gold;
+      color: #b30000;
+      border-radius: 50%;
+      width: 38px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .footer-section.social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 10px; /* adds space between icons */
+    }
+
+    .social-icons .icon:hover {
+      background-color: white;
+      color: #e60000;
+      transform: scale(1.1);
+    }
+
+    .copyright {
+      font-size: 0.9rem;
+      color: #fff4cc;
+      margin-top: 1rem;
+    }
+
+
+    /* CONTACT POPUP */
+    .popup-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.6);
+      z-index: 10;
+    }
+
+    .contact-popup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: white;
+      border: 3px solid #e60000;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      z-index: 11;
+      text-align: center;
+      width: 90%;
+      max-width: 400px;
+    }
+
+    .contact-popup h2 { color: #e60000; }
+    .close-btn {
+      background-color: #e60000;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+
+    .close-btn:hover { background-color: #c99700; }
+
+    /* RESPONSIVE DESIGN */
+    @media (max-width: 768px) {
+      .slideshow { height: 250px; }
+      nav { flex-direction: column; gap: 10px; }
+      .banner { flex-direction: column; }
+    }
+  </style>
+
+  </style>
+  
+</head>
+<body>
+  <!-- ===== HEADER ===== -->
+  <div class="banner">
+    <img src="images/logo.PNG" alt="CFC Logo" class="logo">
+    <h1>CFC - Crispy Fried Chicken</h1>
+  </div>
+
+  <!-- ===== NAVIGATION ===== -->
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#menu">Menu</a>
+    <a href="#" onclick="openPopup()">Contact</a>
+  </nav>
+
+  <!-- ABOUT SECTION -->
+<section class="about-section">
+  <div class="about-container">
+    <div class="about-text">
+      <h2>About Crispy Fried Chicken</h2>
+      <p>At Crispy Fried Chicken, we pride ourselves on serving freshly made, hot, and crispy chicken that’s juicy on the inside. Every meal is prepared with care, ensuring you get the perfect combination of flavor and crunch every time. From our signature 2-piece mix to our loaded combos, we bring you quality fried chicken that keeps you coming back for more!</p>
+      <p>Come visit us for a mouthwatering experience where freshness meets flavor. Your taste buds will thank you!</p>
+    </div>
+    <div class="about-image">
+      <img src="images/about_chicken.png" alt="Hot crispy fried chicken">
+    </div>
+  </div>
+</section>
+
+  <!-- ===== HOME / SLIDESHOW ===== -->
+  <div class="container" id="home">
+    <div class="slideshow">
+      <div class="slide active" style="background-image: url('images/Chicken.jpg');">Fresh & Crispy Every Time</div>
+      <div class="slide" style="background-image: url('images/Burger.jpg');">Made with Love</div>
+      <div class="slide" style="background-image: url('images/Gyro.jpg');">Taste the Difference</div>
+      <a class="prev" onclick="prevSlide()">&#10094;</a>
+      <a class="next" onclick="nextSlide()">&#10095;</a>
+    </div>
+
+    <!-- ===== ORDER SECTIONS ===== -->
+    <div class="order-section">
+      <div class="order-box">
+        <h2>Order Delivery</h2>
+        <div class="delivery-buttons">
+          <a href="https://www.ubereats.com/store/crispy-fried-chicken-330-hathaway-boulevard-b/KAxrghjAVHO7GaX2MrxJfA?diningMode=DELIVERY&ps=1&sc=SEARCH_SUGGESTION" target="_blank">Uber Eats</a>
+          <a href="https://www.grubhub.com" target="_blank">Grubhub</a>
+          <a href="https://www.doordash.com/store/cfc-crispy-fried-chicken-new-bedford-35836769/80641999/?event_type=autocomplete&pickup=false" target="_blank">DoorDash</a>
+        </div>
+      </div>
+
+      <div class="order-box pickup">
+        <h2>Order Pickup</h2>
+        <p>Call us at <strong>(774) 202-4250</strong> to order for pickup!</p>
+  
+        <p>Pick up is at <a href="https://maps.app.goo.gl/WZQDifQRpyPCTvFt8" target="_blank"><strong>330 Hathaway Blvd, New Bedford MA</strong></a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MENU SECTION ===== -->
+
+  
+<!-- ===== MENU SECTION ===== -->
+<div class="container menu" id="menu">
+  <h2>Our Menu</h2>
+
+  <div class="menu-grid">
+
+    <!-- 1. Sides & Appetizers -->
+    <div class="menu-section">
+      <h3>Sides & Appetizers</h3>
+      <div class="menu-item">
+        <div class="details"><h4>Small Fries</h4><p></p></div>
+        <div class="price">$2.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>Large Box of Fries</h4><p></p></div>
+        <div class="price">$5.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>Onion Rings</h4><p></p></div>
+        <div class="price">$3.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>Potato Wedges</h4><p></p></div>
+        <div class="price">$4.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>Tostone Small Order</h4><p></p></div>
+        <div class="price">$3.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>Side Rice</h4><p></p></div>
+        <div class="price">$3.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>Macaroni &amp; Cheese</h4><p></p></div>
+        <div class="price">$3.50</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>Beef Patty</h4><p></p></div>
+        <div class="price">$2.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>Popcorn Chicken W/ Fries</h4><p></p></div>
+        <div class="price">$8.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>6 PCS Mozzarella Sticks</h4><p></p></div>
+        <div class="price">$5.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>5 Chicken Tenders W/ Fries</h4><p></p></div>
+        <div class="price">$9.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>6 PCS Chicken Nuggets W/ Fries</h4><p></p></div>
+        <div class="price">$6.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>6 PCS Boneless Hot Wings W/ Fries</h4><p></p></div>
+        <div class="price">$9.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>9 PCS Chicken Strips W/ Fries (Kids Size)</h4><p></p></div>
+        <div class="price">$7.99</div>
+      </div>
+    </div>
+
+    <!-- 2. Salads -->
+    <div class="menu-section">
+      <h3>Salads</h3>
+      <div class="menu-item">
+        <div class="details"><h4>Garden Salad</h4><p>Fresh</p></div>
+        <div class="price">$7.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>Grilled Chicken Salad</h4><p>Fresh</p></div>
+        <div class="price">$11.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>Whiting Fish Salad</h4><p>2PCS Fish Over Salad, fresh</p></div>
+        <div class="price">$12.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>Shrimp Salad</h4><p>Fresh</p></div>
+        <div class="price">$12.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>Macaroni Salad</h4><p>Fresh</p></div>
+        <div class="price">$2.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>Coleslaw</h4><p>Fresh</p></div>
+        <div class="price">$2.99</div>
+      </div>
+    </div>
+
+    <!-- 3. Gyro Sandwiches -->
+    <div class="menu-section">
+      <h3>Gyro Sandwiches</h3>
+      <div class="menu-item">
+        <div class="details"><h4>Lamb Gyro</h4><p>Sliced lamb on pita with white sauce, lettuce &amp; tomato </p></div>
+        <div class="price">$9.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>Chicken Gyro</h4><p>Marinated chicken in pita with fresh toppings</p></div>
+        <div class="price">$9.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>Mix Gyro</h4><p>Chicken and Lamb in pita with fresh toppings</p></div>
+        <div class="price">$9.99</div>
+      </div>
+    </div>
+
+    <!-- 4. Seafood Lovers -->
+    <div class="menu-section">
+      <h3>Seafood Lovers</h3>
+      <div class="menu-item">
+        <div class="details"><h4>1 PC Fish Only</h4><p></p></div>
+        <div class="price">$3.49</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>2 PCS Fish W/ Fries</h4><p></p></div>
+        <div class="price">$9.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>3 PCS Fish W/ Fries</h4><p></p></div>
+        <div class="price">$12.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>5 PCS Fish W/ Fries</h4><p></p></div>
+        <div class="price">$19.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>21 Baby Shrimps W/ Fries</h4><p></p></div>
+        <div class="price">$10.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>6 Jumbo Shrimps W/ Fries</h4><p></p></div>
+        <div class="price">$10.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>10 Jumbo Shrimps W/ Fries</h4><p></p></div>
+        <div class="price">$13.99</div>
+      </div>
+    </div>
+
+    <!-- 5. Hot Sandwiches & Burgers -->
+    <div class="menu-section">
+      <h3>Hot Sandwiches &amp; Burgers</h3>
+      <div class="menu-item">
+        <div class="details"><h4>Cheeseburger</h4><p>Served with fries and can of soda</p></div>
+        <div class="price">$9.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>Double Cheeseburger</h4><p>Served with fries and can of soda</p></div>
+        <div class="price">$10.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>Grilled Chicken Sandwich</h4><p>Served with fries and can of soda</p></div>
+        <div class="price">$9.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>Spicy Chicken Sandwich</h4><p>Served with fries and can of soda</p></div>
+        <div class="price">$11.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>Fish Sandwich</h4><p>Served with fries and can of soda</p></div>
+        <div class="price">$9.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>Regular Chicken Sandwich</h4><p>Served with fries and can of soda</p></div>
+        <div class="price">$9.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>Beef Cheese Steak Sandwich</h4><p>Make it combo +$4.00 fries &amp; can soda</p></div>
+        <div class="price">$8.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>Chicken Cheese Steak Sandwich</h4><p>Make it combo +$4.00 fries &amp; can soda</p></div>
+        <div class="price">$8.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>Cheese Steak W/ Onion &amp; Pepper</h4><p>Make it combo +$4.00 fries &amp; can soda</p></div>
+        <div class="price">$8.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>Italian Cheeseburger Sub</h4><p>Make it combo +$4.00 fries &amp; can soda</p></div>
+        <div class="price">$8.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>Whiting Fish Sandwich Sub</h4><p>Make it combo +$4.00 fries &amp; can soda</p></div>
+        <div class="price">$10.99</div>
+      </div>
+    </div>
+
+    <!-- 6. Chicken Wings -->
+    <div class="menu-section">
+      <h3>Chicken Wings</h3>
+      <div class="menu-item">
+        <div class="details"><h4>Regular Chicken Wings 6 PCS W/ Fries</h4><p></p></div>
+        <div class="price">$10.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>Regular Chicken Wings 12 PCS W/ Fries</h4><p></p></div>
+        <div class="price">$20.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>Regular Chicken Wings 18 PCS W/ Fries</h4><p></p></div>
+        <div class="price">$36.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>Buffalo Chicken Wings 10 PCS W/ Fries</h4><p></p></div>
+        <div class="price">$16.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>Buffalo Chicken Wings 15 PCS W/ Fries</h4><p></p></div>
+        <div class="price">$20.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>Buffalo Chicken Wings 20 PCS W/ Fries</h4><p></p></div>
+        <div class="price">$27.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>Hot Wing Zings &amp; Wing Dings 6 PCS W/ Fries</h4><p></p></div>
+        <div class="price">$10.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>Hot Wing Zings &amp; Wing Dings 9 PCS W/ Fries</h4><p></p></div>
+        <div class="price">$13.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>Hot Wing Zings &amp; Wing Dings 12 PCS W/ Fries</h4><p></p></div>
+        <div class="price">$18.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>Hot Wing Zings &amp; Wing Dings 15 PCS W/ Fries</h4><p></p></div>
+        <div class="price">$22.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>Hot Wing Zings &amp; Wing Dings 20 PCS W/ Fries</h4><p></p></div>
+        <div class="price">$28.99</div>
+      </div>
+    </div>
+
+    <!-- 7. Gyro Over Rice Platters -->
+    <div class="menu-section">
+      <h3>Gyro Over Rice Platters</h3>
+      <div class="menu-item">
+        <div class="details"><h4>Lamb Over Rice</h4><p>Served with rice, salad &amp; can of soda, white sauce &amp; hot sauce upon request</p></div>
+        <div class="price">$13.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>Chicken Over Rice</h4><p>Served with rice, salad &amp; can of soda, white sauce &amp; hot sauce upon request</p></div>
+        <div class="price">$13.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>Mix Over Rice</h4><p>Served with rice, salad &amp; can of soda, white sauce &amp; hot sauce upon request</p></div>
+        <div class="price">$14.99</div>
+      </div>
+    </div>
+
+    <!-- 8. Rice Combo -->
+    <div class="menu-section">
+      <h3>Rice Combo</h3>
+      <div class="menu-item">
+        <div class="details"><h4>2 PCS Chicken Over Rice</h4><p>Served with rice &amp; can of soda</p></div>
+        <div class="price">$11.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>Chicken Wings Over Rice</h4><p>Served with rice &amp; can of soda</p></div>
+        <div class="price">$11.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>Popcorn Chicken Over Rice</h4><p>Served with rice &amp; can of soda</p></div>
+        <div class="price">$11.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>Grilled Chicken Over Rice</h4><p>Served with rice &amp; can of soda</p></div>
+        <div class="price">$11.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>2 PCS Fish Over Rice</h4><p>Served with rice &amp; can of soda</p></div>
+        <div class="price">$11.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>6 PCS Jumbo Shrimps Over Rice</h4><p>Served with rice &amp; can of soda</p></div>
+        <div class="price">$11.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>21 Baby Shrimps Over Rice</h4><p>Served with rice &amp; can of soda</p></div>
+        <div class="price">$11.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>Chicken Tenders Over Rice</h4><p>Served with rice &amp; can of soda</p></div>
+        <div class="price">$11.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>6 PCS Boneless Hot Wings Over Rice</h4><p>Served with rice &amp; can of soda</p></div>
+        <div class="price">$11.99</div>
+      </div>
+    </div>
+
+    <!-- 9. Fried Chicken With Fries -->
+    <div class="menu-section">
+      <h3>Mix Chicken With Fries</h3>
+      <div class="menu-item">
+        <div class="details"><h4>2 Pieces</h4><p></p></div>
+        <div class="price">$6.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>3 Pieces</h4><p></p></div>
+        <div class="price">$8.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>4 Pieces</h4><p></p></div>
+        <div class="price">$10.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>5 Pieces</h4><p></p></div>
+        <div class="price">$12.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>6 Pieces</h4><p></p></div>
+        <div class="price">$15.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>8 Pieces</h4><p></p></div>
+        <div class="price">$21.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>10 Pieces</h4><p></p></div>
+        <div class="price">$24.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>12 Pieces</h4><p></p></div>
+        <div class="price">$28.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>15 Pieces</h4><p></p></div>
+        <div class="price">$33.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>20 Pieces</h4><p></p></div>
+        <div class="price">$37.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>25 Pieces</h4><p></p></div>
+        <div class="price">$43.99</div>
+      </div>
+
+    </div>
+
+
+    <!-- 10. Fried Chicken No Fries -->
+    <div class="menu-section">
+      <h3>Mix Chicken No Fries</h3>
+      <div class="menu-item">
+        <div class="details"><h4>6 Pieces</h4><p></p></div>
+        <div class="price">$13.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>9 Pieces</h4><p></p></div>
+        <div class="price">$18.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>12 Pieces</h4><p></p></div>
+        <div class="price">$22.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>15 Pieces</h4><p></p></div>
+        <div class="price">$26.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>20 Pieces</h4><p></p></div>
+        <div class="price">$32.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>30 Pieces</h4><p></p></div>
+        <div class="price">$44.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>36 Pieces</h4><p></p></div>
+        <div class="price">$53.99</div>
+      </div>
+      <div class="menu-item">
+        <div class="details"><h4>50 Pieces</h4><p></p></div>
+        <div class="price">$72.99</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+  <!-- ===== CONTACT POPUP ===== -->
+  <div class="popup-overlay" id="overlay"></div>
+  <div class="contact-popup" id="popup">
+    <h2>Contact Us</h2>
+    <p><strong>Address:</strong> 330 Hathaway Blvd, New Bedford, MA</p>
+    <p><strong>Phone:</strong> (774) 202-4250</p>
+    <p><strong>Email:</strong> crispyfriedchickennb@gmail.com</p>
+    <button class="close-btn" onclick="closePopup()">Close</button>
+  </div>
+
+
+<!-- FOOTER SECTION -->
+  <footer>
+    <div class="footer-section">
+      <h3>Visit Us</h3>
+      <p>330 Hathaway Blvd, New Bedford, MA</p>
+      <p>Open Daily: 11am - 10pm</p>
+      <p>Phone: (774) 202-4250</p>
+    </div>
+    <div class="footer-section social-icons">
+  <a href="https://facebook.com" target="_blank" class="icon"><i class="fab fa-facebook-f"></i></a>
+  <a href="https://instagram.com" target="_blank" class="icon"><i class="fab fa-instagram"></i></a>
+  <a href="https://tiktok.com" target="_blank" class="icon"><i class="fab fa-tiktok"></i></a>
+    </div>
+    <div class="copyright">&copy; 2025 Crispy Fried Chicken. All rights reserved.</div>
+  </footer>
+
+
+
+  <!-- ===== JAVASCRIPT ===== -->
+  <script>
+    // === Slideshow ===
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === index);
+      });
+    }
+
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % slides.length;
+      showSlide(currentSlide);
+    }
+
+    function prevSlide() {
+      currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+      showSlide(currentSlide);
+    }
+
+    setInterval(nextSlide, 4000);
+
+    // === Contact Popup ===
+    function openPopup() {
+      document.getElementById('popup').style.display = 'block';
+      document.getElementById('overlay').style.display = 'block';
+    }
+
+    function closePopup() {
+      document.getElementById('popup').style.display = 'none';
+      document.getElementById('overlay').style.display = 'none';
+    }
+  </script>
+</body>
+</html>
+
+
+
+
